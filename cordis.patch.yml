@@ -1,0 +1,28 @@
+# dsh-prompt-booster — 提示词自动补全
+#
+# 每次用户发消息前，先把这句话交给一个小模型"读懂 + 补全"：
+#   - 补全它没说的目标、约束、输出格式、上下文
+#   - 原文意图保持不变，只补不改
+# 然后把补全结果随原文一起交给主模型。
+#
+# 开关：Web 界面右键/命令「提示词补全」或直接改下面 enabled。
+
+- insert:
+    - id: prompt-booster
+      name: dsh-prompt-booster
+      config:
+        enabled: true
+        # 补全后是否把"补全稿"也显示在对话里（false = 只给模型看）
+        showRewrite: true
+        # 太短的消息不补（比如 "好的" "继续"）
+        minChars: 4
+        # 已经写得很完整的消息不补（启发式：含这些标记就跳过）
+        skipIfContains: []
+        # 补全用哪个模型：留空 = 用当前会话同一模型
+        provider: ""
+        model: ""
+        maxInputChars: 4000
+        maxOutputTokens: 900
+        timeoutMs: 20000
+        # 失败时不打扰用户，直接用原文
+        failOpen: true
